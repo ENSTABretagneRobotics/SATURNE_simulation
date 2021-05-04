@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+
+<robot name="mybot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="PI" value="3.1415926535897931"/>
+
+  <xacro:property name="chassisHeight" value="0.185"/>
+  <xacro:property name="chassisLength" value="0.7"/>
+  <xacro:property name="chassisWidth" value="0.405"/>
+  <xacro:property name="chassisMass" value="35"/>
+
+  <xacro:property name="wheelWidth" value="0.105"/>
+  <xacro:property name="wheelRadius" value="0.2"/>
+  <xacro:property name="wheelMass" value="3"/>
+
+  <xacro:property name="cameraSize" value="0.05"/>
+  <xacro:property name="cameraMass" value="0.1"/>
+
+  <xacro:property name="TrailerHeight" value="0.185"/>
+  <xacro:property name="TrailerLength" value="1"/>
+  <xacro:property name="TrailerWidth" value="0.405"/>
+  <xacro:property name="TrailerMass" value="15"/>
+
+  <xacro:property name="TrailerWheelWidth" value="0.105"/>
+  <xacro:property name="TrailerWheelRadius" value="0.2"/>
+  <xacro:property name="TrailerWheelMass" value="3"/>
+
+  <xacro:property name="TrailerDistance" value="8."/>
+
+  <xacro:property name="joint_velocity_limit" value="10."/>
+  <xacro:property name="joint_effort_limit" value="10000."/>
+
+  <xacro:include filename="$(find mybot_description)/urdf/mybot.gazebo" />
+  <xacro:include filename="$(find mybot_description)/urdf/materials.xacro" />
+  <xacro:include filename="$(find mybot_description)/urdf/macros.xacro" />
+
+  <link name="footprint" />
+
+  
+  <joint name="base_joint" type="fixed">
+    <parent link="footprint"/>
+    <child link="chassis"/>
+  </joint>
+  
+
+  <link name="chassis">
+    <pose>0 0 0.2275 0 0 0</pose>
+    <collision>
+      <origin xyz="0 0 0.2275" rpy="0 0 0"/>
+      <geometry>
+        <box size="${chassisLength} ${chassisWidth} ${chassisHeight}"/>
+      </geometry>
+    </collision>
+
+    <visual name='visual'>
+      <!--<pose> 0.35 0 0.72275 0 0 0</pose>-->
+      <origin xyz="0 0 0.2275" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="$(find mybot_description)/meshes/saturne.dae">
+          <scale>1 1 1</scale>
+      </mesh>
+      </geometry>
+    </visual>
+
+    <!--
+    <visual>
+      <origin xyz="0 0 ${wheelRadius}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${chassisLength} ${chassisWidth} ${chassisHeight}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    -->
+    <inertial>
+      <origin xyz="0 0 0.2275" rpy="0 0 0"/>
+      <mass value="${chassisMass}"/>
+      <box_inertia m="${chassisMass}" x="${chassisLength}" y="${chassisWidth}" z="${chassisHeight}"/>
+    </inertial>
+  </link>
+
+  <wheel lr="left" fb="front" tX="0.25" tY="-0.3175"/>
+  <wheel lr="left" fb="back" tX="-0.25" tY="-0.3175"/>
+  <wheel lr="right" fb="front" tX="0.25" tY="0.3175"/>
+  <wheel lr="right" fb="back" tX="-0.25" tY="0.3175"/>
+
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="${-cameraSize/2+chassisLength/2} 0 ${0.88-cameraSize/2}" rpy="0 ${PI/4} 0"/>
+    <parent link="chassis"/>
+    <child link="camera"/>
+  </joint>
+
+  <link name="camera">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	<box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <mass value="${cameraMass}" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <box_inertia m="${cameraMass}" x="${cameraSize}" y="${cameraSize}" z="${cameraSize}" />
+    </inertial>
+  </link>
+
+  <joint name="imu_joint" type="fixed">
+    <origin xyz="0 0 ${0.78-cameraSize/2}" rpy="0 0 0"/>
+    <parent link="chassis"/>
+    <child link="imu_link"/>
+  </joint>
+
+  <link name="imu_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <mass value="${cameraMass}" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <box_inertia m="${cameraMass}" x="${cameraSize}" y="${cameraSize}" z="${cameraSize}" />
+    </inertial>
+  </link>
+
+
+  <joint name="gps_joint" type="fixed">
+    <origin xyz="0.09 ${chassisWidth/2-cameraSize/2} ${0.755-cameraSize/2}" rpy="0 0 0"/>
+    <parent link="chassis"/>
+    <child link="gps_link"/>
+  </joint>
+
+  <link name="gps_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${cameraSize} ${cameraSize} ${cameraSize/4}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${cameraSize} ${cameraSize} ${cameraSize/4}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <mass value="${cameraMass}" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <box_inertia m="${cameraMass}" x="${cameraSize}" y="${cameraSize}" z="${cameraSize/4}" />
+    </inertial>
+  </link>
+
+  <!--
+
+  <link name="trailer">
+    <origin xyz="${-TrailerDistance} 0 ${TrailerWheelRadius}" rpy="0 0 0"/>
+    
+    <collision>
+      <origin xyz="${-TrailerDistance} 0 ${TrailerWheelRadius}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${TrailerLength} ${TrailerWidth} ${TrailerHeight}"/>
+      </geometry>
+    </collision>
+
+    
+    <visual>
+      <origin xyz="${-TrailerDistance} 0 ${TrailerWheelRadius}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${TrailerLength} ${TrailerWidth} ${TrailerHeight}"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0.2275" rpy="0 0 0"/>
+      <mass value="${TrailerMass}"/>
+      <box_inertia m="${TrailerMass}" x="${TrailerLength}" y="${TrailerWidth}" z="${TrailerHeight}"/>
+    </inertial>
+  </link>
+  
+  
+  <wheel_trailer lr="left" fb="front" tX="0.25" tY="-0.3175" dist="${-TrailerDistance}"/>
+  <wheel_trailer lr="left" fb="back" tX="-0.25" tY="-0.3175" dist="${-TrailerDistance}"/>
+  <wheel_trailer lr="right" fb="front" tX="0.25" tY="0.3175" dist="${-TrailerDistance}"/>
+  <wheel_trailer lr="right" fb="back" tX="-0.25" tY="0.3175" dist="${-TrailerDistance}"/>
+  
+  <link name="hori_link">
+    <visual><geometry><sphere radius="0.1"/></geometry></visual>
+    <collision><geometry><sphere radius=".00001"/></geometry></collision>
+    <inertial>
+      <origin xyz="${-chassisLength/2 - 0.55} 0 0.2275" rpy="0 0 0"/>
+      <mass value=".00001"/>
+      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />
+    </inertial>
+  </link>
+
+  <joint name="trailer_joint_hori" type="revolute">
+    <origin xyz="${-chassisLength/2 - 0.5} 0 0.2275" rpy="0 0 0"/>
+    <parent link="chassis"/>
+    <child link="hori_link"/>
+    <axis xyz="0 1 0" rpy="0 0 0" />
+    <limit lower="${-pi}" upper="${pi}" velocity="${joint_velocity_limit}" effort="${joint_effort_limit}" />
+  </joint>
+
+  <joint name="trailer_joint_verti" type="revolute">
+    <origin xyz="${-chassisLength/2 - 0.6} 0 0.2275" rpy="0 0 0"/>
+    <parent link="hori_link"/>
+    <child link="trailer"/>
+    <axis xyz="0 0 1" rpy="0 0 0" />
+    <limit lower="${-pi}" upper="${pi}" velocity="${joint_velocity_limit}" effort="${joint_effort_limit}" />
+  </joint>
+-->
+  
+</robot>

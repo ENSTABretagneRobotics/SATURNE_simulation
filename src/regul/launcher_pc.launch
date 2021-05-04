@@ -1,0 +1,12 @@
+<launch output="screen">
+
+<node name="obj"        pkg="regul"      type="obj" output="screen"/>
+<node name="estim"        pkg="regul"      type="estim" output="screen"/>
+<node name="ctrl_gazebo"        pkg="regul"      type="ctrl_gazebo" output="screen"/>
+<node name="ctrl"        pkg="regul"      type="ctrl" output="screen"/>
+
+<node name="mission"        pkg="regul"      type="mission" output="screen"/>
+
+<node name="ihm"        pkg="ihm"      type="ihm" output="screen"/>
+</launch>
+

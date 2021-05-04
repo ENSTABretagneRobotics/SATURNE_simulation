@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<robot>
+     <macro name="cylinder_inertia" params="m r h">
+        <inertia  ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0"
+                  iyy="${m*(3*r*r+h*h)/12}" iyz = "0"
+                  izz="${m*r*r/2}" /> 
+      </macro>
+
+      <macro name="box_inertia" params="m x y z">
+        <inertia  ixx="${m*(y*y+z*z)/12}" ixy = "0" ixz = "0"
+                  iyy="${m*(x*x+z*z)/12}" iyz = "0"
+                  izz="${m*(x*x+y*y)/12}" /> 
+      </macro>
+
+    <macro name="wheel" params="lr fb tX tY">
+
+      <link name="${lr}_${fb}_wheel">
+        <collision>
+          <origin xyz="0 0 0" rpy="0 ${PI/2} ${PI/2}" />
+          <geometry>
+            <cylinder length="${wheelWidth}" radius="${wheelRadius}"/>
+          </geometry>
+        </collision>
+
+        <visual>
+          <origin xyz="0 0 0" rpy="0 ${PI/2} ${PI/2}" />
+          <geometry>
+            <cylinder length="${wheelWidth}" radius="${wheelRadius}"/>
+          </geometry>
+          <material name="black"/>
+        </visual>
+
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 ${PI/2} ${PI/2}" />
+          <mass value="${wheelMass}"/>
+          <cylinder_inertia m="${wheelMass}" r="${wheelRadius}" h="${wheelWidth}"/>
+        </inertial>
+      </link>
+
+      <gazebo reference="${lr}_${fb}_wheel">
+        <mu1 value="1000000.0"/>
+        <mu2 value="100.0"/>
+        <!--<kp  value="1000000.0" />
+        <kd  value="100.0" />-->
+        <fdir1 value="1 0 0"/>
+        <material>Gazebo/Black</material>
+        <turnGravityOff>false</turnGravityOff>
+      </gazebo>
+
+
+      <joint name="${lr}_${fb}_wheel_hinge" type="continuous">
+        <parent link="chassis"/>
+        <child link="${lr}_${fb}_wheel"/>
+        <origin xyz="${tX} ${tY} ${wheelRadius}" rpy="0 0 0" /> 
+        <axis xyz="0 1 0" rpy="0 0 0" />
+        <limit effort="100" velocity="100"/>
+        <dynamics damping="0.0" friction="0.0"/>
+      </joint>
+
+      
+      <transmission name="${lr}_${fb}_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${lr}_${fb}_wheel_hinge">
+          <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${lr}_${fb}_Motor">
+          <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+          <mechanicalReduction>10</mechanicalReduction>
+        </actuator>
+      </transmission>
+      
+    </macro>
+
+    <macro name="wheel_trailer" params="lr fb tX tY dist">
+
+      <link name="${lr}_${fb}_trailer_wheel">
+        <collision>
+          <origin xyz="0 0 0" rpy="0 ${PI/2} ${PI/2}" />
+          <geometry>
+            <cylinder length="${TrailerWheelWidth}" radius="${TrailerWheelRadius}"/>
+          </geometry>
+        </collision>
+
+        <visual>
+          <origin xyz="0 0 0" rpy="0 ${PI/2} ${PI/2}" />
+          <geometry>
+            <cylinder length="${TrailerWheelWidth}" radius="${TrailerWheelRadius}"/>
+          </geometry>
+          <material name="black"/>
+        </visual>
+
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 ${PI/2} ${PI/2}" />
+          <mass value="${TrailerWheelMass}"/>
+          <cylinder_inertia m="${TrailerWheelMass}" r="${TrailerWheelRadius}" h="${TrailerWheelWidth}"/>
+        </inertial>
+      </link>
+
+      <gazebo reference="${lr}_${fb}_trailer_wheel">
+        <mu1 value="1000000.0"/>
+        <mu2 value="100.0"/>
+        <!--<kp  value="1000000.0" />
+        <kd  value="100.0" />-->
+        <fdir1 value="1 0 0"/>
+        <material>Gazebo/Black</material>
+        <turnGravityOff>false</turnGravityOff>
+      </gazebo>
+
+
+      <joint name="${lr}_${fb}_trailer_wheel_hinge" type="continuous">
+        <parent link="trailer"/>
+        <child link="${lr}_${fb}_trailer_wheel"/>
+        <origin xyz="${dist + tX} ${tY} ${TrailerWheelRadius}" rpy="0 0 0" /> 
+        <axis xyz="0 1 0" rpy="0 0 0" />
+        <limit effort="100" velocity="100"/>
+        <dynamics damping="0.0" friction="0.0"/>
+      </joint>
+      
+    </macro>
+
+</robot>
