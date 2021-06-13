@@ -20,7 +20,7 @@ roscore & rosrun gazebo_ros gazebo)
 ___________________________________
 Usage:
 
-Pour modifier la mission, il faut modifier le fichier mission.cpp du package regul. La fonction read peut être modifiée pour soit lire un fichier (exemple data_traj.txt) soit suivre une suite d'objectifs directement écrit dans le code (c'est le cas actuellement).
+Pour modifier la mission, il faut modifier le fichier mission.cpp du package regul. La fonction read peut être modifiée pour soit lire un fichier (exemple data_traj.txt) soit suivre une suite d'objectifs directement écrits dans le code (c'est le cas actuellement).
 
 To launch Gazebo simulation:
 # For VMware virtual machines: export SVGA_VGPU10=0

@@ -19,7 +19,9 @@ double current_vel;
 bool incorrect_gps = false;
 bool ready = false;
 
-double max_cov = 2.5;
+//double max_cov = 2.5;
+//double max_cov = 3;
+double max_cov = 5.;
 
 ros::Time last_msg_imu;
 ros::Time last_msg_gps;
@@ -31,9 +33,9 @@ void callbackFix(const sensor_msgs::NavSatFix& msg)
 	double current_long = msg.longitude;
 	incorrect_gps = false;
 
-	if(msg.position_covariance[0] > max_cov or msg.position_covariance[4] > max_cov or (isnan(current_lat) || isnan(current_long)))
+	if(msg.position_covariance[0] > max_cov || msg.position_covariance[4] > max_cov || (isnan(current_lat) || isnan(current_long)))
 	{
-		//incorrect_gps = true;
+		incorrect_gps = true;
 	}
 
 	if(incorrect_gps == false)
@@ -43,16 +45,15 @@ void callbackFix(const sensor_msgs::NavSatFix& msg)
 	}
 	else
 	{
-		//ROS_WARN("Les donnees du GPS ne sont pas assez precises.");
+		ROS_WARN("Les donnees du GPS ne sont pas assez precises.");
 	}
 	last_msg_gps = ros::Time::now();
 }
 
 void callbackImu(const sensor_msgs::Imu& msg)
 {
-	current_heading = -tf::getYaw(msg.orientation);
-	//ROS_WARN("CallBack IMU %f", current_heading);
-
+	current_heading = -tf::getYaw(msg.orientation); // For SATURNE simulator...
+	//current_heading = tf::getYaw(msg.orientation); // For SATURNE or Warthog...
 	last_msg_imu = ros::Time::now();
 }
 
@@ -60,7 +61,7 @@ void callbackVel(const geometry_msgs::TwistStamped& msg)
 {
 	double vx = msg.twist.linear.x;
 	double vy = msg.twist.linear.y;
-	if(isnan(vx) or isnan(vy))
+	if(isnan(vx) || isnan(vy))
 	{
 		current_vel = 0;
 	}
@@ -80,7 +81,8 @@ int main(int argc, char **argv)
 
 	ros::Subscriber sub_fix = n.subscribe("/fix", 1000, callbackFix);
 	ros::Subscriber sub_vel = n.subscribe("/vel", 1000, callbackVel);
-	ros::Subscriber sub_imu = n.subscribe("/imu", 1000, callbackImu);
+	ros::Subscriber sub_imu = n.subscribe("/imu", 1000, callbackImu); // For SATURNE simulator...
+	//ros::Subscriber sub_imu = n.subscribe("/imu/data", 1000, callbackImu); // For SATURNE or Warthog...
  	ros::Publisher chatter_estim = n.advertise<regul::msg_estim>("/estim", 1000);
 
   	ros::Rate loop_rate(10);
@@ -90,7 +92,7 @@ int main(int argc, char **argv)
 	ros::Time loop_time = ros::Time::now();
     while (ros::ok())
     {
-    	if((ros::Time::now()-last_msg_vel).toSec() <= 2)
+    	if((ros::Time::now()-last_msg_vel).toSec() <= 2.)//?
     	{
     		double dt = (loop_time - ros::Time::now()).toSec();
     		loop_time = ros::Time::now();
@@ -101,7 +103,7 @@ int main(int argc, char **argv)
     	msg.y = y_pos;
     	msg.theta = current_heading;
     	msg.vel = current_vel;
-    	msg.correct = (ready and incorrect_gps == false and (ros::Time::now()-last_msg_imu).toSec() <= 2. and (ros::Time::now()-last_msg_gps).toSec() <= 2. and (ros::Time::now()-last_msg_vel).toSec() <= 2.);
+    	msg.correct = (ready && incorrect_gps == false && (ros::Time::now()-last_msg_imu).toSec() <= 2. && (ros::Time::now()-last_msg_gps).toSec() <= 2. && (ros::Time::now()-last_msg_vel).toSec() <= 2.);
 		chatter_estim.publish(msg);
         loop_rate.sleep();
 	    ros::spinOnce();
