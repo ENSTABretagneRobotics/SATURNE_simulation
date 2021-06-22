@@ -1,0 +1,20 @@
+<launch output="screen">
+
+<node name="drvr_pololu"        pkg="pololu"      type="drvr_pololu">
+    <param name="port"              type="string"               value="/dev/ttyS2"/>
+</node>
+<node name="velocity_control" pkg="velocity_control" type="velocity_control" output="screen"/>
+<node name="arduino_driver" pkg="arduino_driver" type="arduino_driver" output="screen"/>
+  <node pkg="sevcon_traction" type="sevcon_traction_node" name="sevcon_traction_node"  output="screen">
+    <param name="can_device" value="can0" />
+    <param name="baudrate" value="1M" />
+    <param name="node_id" value="64" />
+    <param name="diagnostic_period" value="0.1" />
+    <param name="left_motor_node_id" value="1" />
+    <param name="right_motor_node_id" value="2" />
+    <param name="heartbeat_error_delay" value="0.5" />
+    <param name="left/motor_speed_scale" type="double" value="24" />
+    <param name="right/motor_speed_scale" type="double" value="24" />
+  </node>
+
+</launch>

@@ -1,0 +1,26 @@
+<launch output="screen">
+  <arg name="port" default="/dev/ttyS1" />
+  <arg name="baud" default="38400" />
+  <arg name="frame_id" default="gps" />
+  <arg name="use_GNSS_time" default="False" />
+  <arg name="time_ref_source" default="gps" />
+  <arg name="useRMC" default="False" />
+
+<node name="nmea_serial_driver_node" pkg="nmea_navsat_driver" type="nmea_serial_driver" output="screen">
+    <param name="port" value="$(arg port)"/>
+    <param name="baud" value="$(arg baud)" />
+    <param name="frame_id" value="$(arg frame_id)" />
+    <param name="use_GNSS_time" value="$(arg use_GNSS_time)" />
+    <param name="time_ref_source" value="$(arg time_ref_source)" />
+    <param name="useRMC" value="$(arg useRMC)" />
+</node>
+<node name="sbg_device" pkg="sbg_driver" type="sbg_device" output="screen">
+  	<rosparam command="load" file="$(find sbg_driver)/config/sbg_device_uart_default.yaml" />
+</node>
+<node name="ctrl" pkg="regul" type="ctrl" output="screen"/>
+<node name="estim"        pkg="regul"      type="estim" output="screen"/>
+<node name="obj"        pkg="regul"      type="obj" output="screen"/>
+
+<node pkg="rosbag" type="record" name="rosbag_record_diag" args="record -o /tmp/bag -a"/>   
+
+</launch>
