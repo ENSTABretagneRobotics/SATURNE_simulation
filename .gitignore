@@ -263,5 +263,12 @@ $RECYCLE.BIN/
 # Other
 # =========================
 
+src/CMakeSettings.json
+devel/
+build/
+.catkin_workspace
+!models/**/*.sdf
+**/__pycache__/
+**/*.pyc
 TODO/
 !*ReadMe.txt

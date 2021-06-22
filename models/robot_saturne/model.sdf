@@ -1,0 +1,157 @@
+<?xml version='1.0'?>
+<sdf version='1.4'>
+  <model name="Saturne">
+	<static>false</static>
+
+	<link name='chassis'>
+        <pose>0 0 0.2275 0 0 0</pose>
+
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>.70 .405 .185</size>
+            </box>
+          </geometry>
+        </collision>
+
+        <visual name='visual'>
+          	<pose> 0.35 0 0 0 0 0</pose>
+
+          	<geometry>
+	          	<mesh>
+	          		<!--<uri>model://robot_saturne/meshes/terrain.dae</uri>-->
+	          		<scale>1 1 1</scale>
+	        	</mesh>
+          	</geometry>
+        </visual>
+	</link>
+
+	<link name="front_left_wheel">
+        <pose>0.25 -0.3175 0.2 0 1.5707 1.5707</pose>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>.2</radius>
+              <length>.105</length>
+            </cylinder>
+          </geometry>
+        </collision>
+
+        <visual name='visual'>
+	        <pose> 0 0 0 1.5707 0 0</pose>
+
+          	<geometry>
+	          	<mesh>
+	          		<uri>model://robot_saturne/meshes/first_wheel.dae</uri>
+	          		<scale>0.1 0.1 0.1</scale>
+	        	</mesh>
+          	</geometry>
+        </visual>
+	</link>
+
+	<link name="rear_left_wheel">
+        <pose>-0.25 -0.3175 0.2 0 1.5707 1.5707</pose>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>.2</radius>
+              <length>.105</length>
+            </cylinder>
+          </geometry>
+        </collision>
+
+        <visual name='visual'>
+	        <pose>0 0 0 1.5707 0 0</pose>
+
+          	<geometry>
+	          	<mesh>
+	          		<uri>model://robot_saturne/meshes/first_wheel.dae</uri>
+	          		<scale>0.1 0.1 0.1</scale>
+	        	</mesh>
+          	</geometry>
+        </visual>
+	</link>
+
+	<link name="front_right_wheel">
+        <pose>0.25 0.3175 0.2 0 1.5707 1.5707</pose>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>.2</radius>
+              <length>.105</length>
+            </cylinder>
+          </geometry>
+        </collision>
+
+        <visual name='visual'>
+	        <pose>0 0 0 1.5707 0 0</pose>
+
+          	<geometry>
+	          	<mesh>
+	          		<uri>model://robot_saturne/meshes/first_wheel.dae</uri>
+	          		<scale>0.1 0.1 0.1</scale>
+	        	</mesh>
+          	</geometry>
+        </visual>
+	</link>
+
+	<link name="rear_right_wheel">
+        <pose>-0.25 0.3175 0.2 0 1.5707 1.5707</pose>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>.2</radius>
+              <length>.105</length>
+            </cylinder>
+          </geometry>
+        </collision>
+
+        <visual name='visual'>
+	        <pose>0 0 0 1.5707 0 0</pose>
+
+          	<geometry>
+	          	<mesh>
+	          		<uri>model://robot_saturne/meshes/first_wheel.dae</uri>
+	          		<scale>0.1 0.1 0.1</scale>
+	        	</mesh>
+          	</geometry>
+        </visual>
+	</link>
+
+	<joint type="revolute" name="front_left_wheel_hinge">
+        <pose>0 0 0 0 0 0</pose>
+        <child>front_left_wheel</child>
+        <parent>chassis</parent>
+        <axis>
+          	<xyz>0 1 0</xyz>
+        </axis>
+      </joint>
+
+    <joint type="revolute" name="rear_left_wheel_hinge">
+        <pose>0 0 0 0 0 0</pose>
+        <child>rear_left_wheel</child>
+        <parent>chassis</parent>
+        <axis>
+          	<xyz>0 1 0</xyz>
+        </axis>
+	</joint>
+
+    <joint type="revolute" name="front_right_wheel_hinge">
+        <pose>0 0 0 0 0 0</pose>
+        <child>front_right_wheel</child>
+        <parent>chassis</parent>
+        <axis>
+          	<xyz>0 1 0</xyz>
+        </axis>
+	</joint>
+
+    <joint type="revolute" name="rear_right_wheel_hinge">
+        <pose>0 0 0 0 0 0</pose>
+        <child>rear_right_wheel</child>
+        <parent>chassis</parent>
+        <axis>
+          	<xyz>0 1 0</xyz>
+        </axis>
+	</joint>
+  </model>
+</sdf>
