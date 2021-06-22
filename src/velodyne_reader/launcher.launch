@@ -1,0 +1,29 @@
+<launch output="screen">
+
+<include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+<node name="sbg_device" pkg="sbg_driver" type="sbg_device" output="screen">
+  	<rosparam command="load" file="$(find sbg_driver)/config/sbg_device_uart_default.yaml" />
+</node>
+<group ns="front">
+    <node name="drvr"        pkg="roboteq"      type="drvr" respawn="true" >
+    <param name="port"              type="string"               value="/dev/FRONT"/>
+</node>
+</group>
+
+<group ns="back">
+    <node name="drvr"        pkg="roboteq"      type="drvr" respawn="true" >
+    <param name="port"              type="string"               value="/dev/BACK"/>
+    </node>
+</group>
+
+<node name="drvr_light"        pkg="light"      type="drvr_light">
+    <param name="port"              type="string"               value="/dev/POLOLU"/>
+</node>
+
+<node name="estim"        pkg="regul"      type="estim" output="screen"/>
+<node name="reader"        pkg="velodyne_reader"      type="reader" output="screen"/>
+<node name="ctrl"        pkg="regul"      type="ctrl" output="screen"/>
+
+
+
+</launch>

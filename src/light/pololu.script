@@ -1,0 +1,11 @@
+begin
+	button_1         if sequence_1 endif
+repeat
+
+sub button_1
+	15         get_position 200 greater_than
+return
+
+sub sequence_1
+	11         serial_send_byte
+return
