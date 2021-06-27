@@ -50,7 +50,7 @@ void callbackImu(const sensor_msgs::Imu& msg)
 
 void callbackRotation(const std_msgs::Float64& msg)
 {
-	if(msg.data != 0. and !order_received)
+	if(msg.data != 0. && !order_received)
 	{
 		angle_rotation = -msg.data*M_PI/180.;
 		order_received = true;
@@ -60,7 +60,7 @@ void callbackRotation(const std_msgs::Float64& msg)
 
 void callbackStraightLine(const std_msgs::Float64& msg)
 {
-	if(msg.data != 0. and !order_received)
+	if(msg.data != 0. && !order_received)
 	{
 		dist_movement = msg.data;
 		order_received = true;
@@ -103,16 +103,16 @@ int main(int argc, char **argv)
 		msg_send.linear.z = 0.;
 		msg_send.angular.z = 0.;
 
-		if(order_received and !isMoving and !order_rotation and (ros::Time::now()-last_msg_enc).toSec() <= 0.5)
+		if(order_received && !isMoving && !order_rotation && (ros::Time::now()-last_msg_enc).toSec() <= 0.5)
 		{
 			posBeforeMovement = x_encod;
 			isMoving = true;
 		}
-		if(isMoving and !order_rotation and (ros::Time::now()-last_msg_enc).toSec() <= 0.5)
+		if(isMoving && !order_rotation && (ros::Time::now()-last_msg_enc).toSec() <= 0.5)
 		{
 			double delta = (posBeforeMovement + dist_movement) - x_encod;
 
-			if((dist_movement > 0 and delta <= 0 and std::fabs(delta) < epsilon_dist) or (dist_movement < 0 and delta >= 0 and std::fabs(delta) < epsilon_dist))
+			if((dist_movement > 0 && delta <= 0 && std::fabs(delta) < epsilon_dist) || (dist_movement < 0 && delta >= 0 && std::fabs(delta) < epsilon_dist))
 			{
 				ROS_INFO("Done");
 				isMoving = false;
@@ -135,13 +135,13 @@ int main(int argc, char **argv)
 		    ROS_INFO("Linear: %f %f",delta,msg_send.linear.x);
 		}
 
-		if(order_received and !isMoving and order_rotation and (ros::Time::now()-last_msg_imu).toSec() <= 0.15)
+		if(order_received && !isMoving && order_rotation && (ros::Time::now()-last_msg_imu).toSec() <= 0.15)
 		{
 			yawBeforeMovement = yaw;
 			yaw_obj = yawBeforeMovement + angle_rotation;
 			isMoving = true;
 		}
-		if(isMoving and order_rotation and (ros::Time::now()-last_msg_imu).toSec() <= 0.15)
+		if(isMoving && order_rotation && (ros::Time::now()-last_msg_imu).toSec() <= 0.15)
 		{
 			double delta = sawtooth(yaw_obj - yaw);
 
