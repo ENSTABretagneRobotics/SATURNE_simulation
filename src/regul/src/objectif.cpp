@@ -81,7 +81,7 @@ void callbackCurrent_mission(const regul::msg_mission& msg)
 		current_mission.p1y=msg.y1;
 	}
 	
-	if (msg.type==2 or msg.type==3) //Circle ou arc, même contrôleur
+	if (msg.type==2 || msg.type==3) //Circle ou arc, même contrôleur
 	{
 		current_mission.type = 2;
 
@@ -109,7 +109,7 @@ int main(int argc, char **argv)
 	bool continue_missions = true;
  	regul::msg_obj msg;
 
- 	while (ros::ok() and continue_missions)
+ 	while (ros::ok() && continue_missions)
     {
 		current_mission_type = current_mission.type;
     	if(current_mission_type == 1) //Line following

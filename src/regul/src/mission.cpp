@@ -397,7 +397,7 @@ bool testEndMission(mission &current_mission){
 	{
 		float dist_b = dist_to_b(current_mission.p0x,current_mission.p0y,current_mission.p1x,current_mission.p1y);
 	    //ROS_INFO("%f",dist_b);
-		if(dist_b > current_mission.offset_validation and estim_correct and dist_b < 1000)
+		if(dist_b > current_mission.offset_validation && estim_correct && dist_b < 1000)
 		{
 			ROS_INFO("Mission Node : Fin du suivi de waypoint");
 			return true;
@@ -408,7 +408,7 @@ bool testEndMission(mission &current_mission){
 	    float dist_b = dist_to_b(current_mission.p0x,current_mission.p0y,current_mission.p1x,current_mission.p1y);
 	    //ROS_INFO("Mission Node : line follow dist_b = %f",dist_b);
 	    
-		if(dist_b > current_mission.offset_validation  and estim_correct and dist_b < 1000)
+		if(dist_b > current_mission.offset_validation && estim_correct && dist_b < 1000)
 		{
 			ROS_INFO("Mission Node : Valide à %f m",dist_b);
 			ROS_INFO("Mission Node : Fin du suivi de Line");
@@ -427,7 +427,7 @@ bool testEndMission(mission &current_mission){
 				ROS_INFO("Mission Node : Condition angulaire validee");
 			}
 		}
-		if(dist_b > current_mission.offset_validation and cond_angul){
+		if(dist_b > current_mission.offset_validation && cond_angul){
 			cond_angul = false;
 			return true;
 		} 
@@ -445,7 +445,7 @@ bool testEndMission(mission &current_mission){
 				ROS_INFO("Mission Node : Condition angulaire validee");
 			}
 		}
-		if(dist_b > current_mission.offset_validation and cond_angul){
+		if(dist_b > current_mission.offset_validation && cond_angul){
 			cond_angul = false;
 			return true;
 		} 

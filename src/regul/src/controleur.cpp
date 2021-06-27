@@ -101,7 +101,7 @@ int main(int argc, char **argv)
         	diff = 300.*sawtooth(current_objective_heading - estim_theta);
         	msg.cmd_left = speed_check((int)(speed+diff));
 	    	msg.cmd_right = speed_check((int)(speed-diff));
-		    if(estim_correct == false or (ros::Time::now()-last_msg_obj).toSec() > 1. or (ros::Time::now()-last_msg_estim).toSec() > 1.)
+		    if(estim_correct == false || (ros::Time::now()-last_msg_obj).toSec() > 1. || (ros::Time::now()-last_msg_estim).toSec() > 1.)
 			{
 				 msg.cmd_left = 0;
 				 msg.cmd_right = 0;

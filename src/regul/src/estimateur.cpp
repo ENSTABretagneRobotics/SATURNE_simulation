@@ -19,7 +19,7 @@ double current_vel;
 bool incorrect_gps = false;
 bool ready = false;
 
-double max_cov = 3;
+double max_cov = 5.;
 
 ros::Time last_msg_imu;
 ros::Time last_msg_gps;
@@ -88,7 +88,7 @@ int main(int argc, char **argv)
 	ros::Time loop_time = ros::Time::now();
     while (ros::ok())
     {
-    	if((ros::Time::now()-last_msg_vel).toSec() <= 2)
+    	if((ros::Time::now()-last_msg_vel).toSec() <= 2.)//?
     	{
     		double dt = (loop_time - ros::Time::now()).toSec();
     		loop_time = ros::Time::now();
@@ -99,7 +99,7 @@ int main(int argc, char **argv)
     	msg.y = y_pos;
     	msg.theta = current_heading;
     	msg.vel = current_vel;
-    	msg.correct = (ready and incorrect_gps == false and (ros::Time::now()-last_msg_imu).toSec() <= 2. and (ros::Time::now()-last_msg_gps).toSec() <= 2. and (ros::Time::now()-last_msg_vel).toSec() <= 2.);
+    	msg.correct = (ready && incorrect_gps == false && (ros::Time::now()-last_msg_imu).toSec() <= 2. && (ros::Time::now()-last_msg_gps).toSec() <= 2. && (ros::Time::now()-last_msg_vel).toSec() <= 2.);
 		chatter_estim.publish(msg);
         loop_rate.sleep();
 	    ros::spinOnce();
