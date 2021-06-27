@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 	{
     	geometry_msgs::Twist msg;
     	std_msgs::Float64 msg_deg;
-	    if((ros::Time::now()-last_msg_imu).toSec() <= 0.15 and (ros::Time::now()-last_msg_cmd).toSec() <= 0.25)
+	    if((ros::Time::now()-last_msg_imu).toSec() <= 0.15 && (ros::Time::now()-last_msg_cmd).toSec() <= 0.25)
 	    {
 	    	msg.linear.x = speed_objective;
 	    	msg.angular.z = -2.5*atan(sawtooth(yaw_objective - yaw));

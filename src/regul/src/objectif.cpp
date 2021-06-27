@@ -332,7 +332,7 @@ int main(int argc, char **argv)
 
  	double speed = 2.;
 
-    while (ros::ok() and continue_missions)
+    while (ros::ok() && continue_missions)
     {
     	msg.linear.x = 0.;
 		msg.angular.z = 0.;
@@ -341,7 +341,7 @@ int main(int argc, char **argv)
     	{
 		    float dist_b = dist_to_b(current_mission.p0x,current_mission.p0y,current_mission.p1x,current_mission.p1y);
 		    //ROS_INFO("%f",dist_b);
-			if(dist_b > current_mission.offset_validation  and estim_correct)
+			if(dist_b > current_mission.offset_validation && estim_correct)
 			{
 				ROS_INFO("Valide à %f m",dist_b);
 				continue_missions = endMission();
@@ -399,15 +399,15 @@ int main(int argc, char **argv)
 				ROS_INFO("%f",dist_b);
 			}
 
-			/*if(current_mission.sens == 1 and estim_correct and estim_theta > 0.9*M_PI/2. and estim_theta  < 1.1*M_PI/2.)
+			/*if(current_mission.sens == 1 && estim_correct && estim_theta > 0.9*M_PI/2. && estim_theta  < 1.1*M_PI/2.)
 			{
 				continue_missions = endMission();	
 			}
-			if(current_mission.sens == -1 and estim_correct and estim_theta > -1.1*M_PI/2. and estim_theta  < -0.9*M_PI/2.)
+			if(current_mission.sens == -1 && estim_correct && estim_theta > -1.1*M_PI/2. && estim_theta  < -0.9*M_PI/2.)
 			{
 				continue_missions = endMission();	
 			}*/
-			if(estim_correct and dist_b > current_mission.offset_validation and cond_angul)
+			if(estim_correct && dist_b > current_mission.offset_validation && cond_angul)
 			{
 				continue_missions = endMission();
 				cond_angul = false;	
@@ -423,7 +423,7 @@ int main(int argc, char **argv)
 
 			float dist_b = dist_to_b(current_mission.p0x,current_mission.p0y,current_mission.p1x,current_mission.p1y);
 		    //ROS_INFO("%f",dist_b);
-			if(dist_b > current_mission.offset_validation and estim_correct)
+			if(dist_b > current_mission.offset_validation && estim_correct)
 			{
 				continue_missions = endMission();
 			}

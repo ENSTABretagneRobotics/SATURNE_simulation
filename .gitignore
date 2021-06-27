@@ -263,7 +263,7 @@ $RECYCLE.BIN/
 # Other
 # =========================
 
-src/CMakeSettings.json
+**/CMakeSettings.json
 devel/
 build/
 .catkin_workspace
