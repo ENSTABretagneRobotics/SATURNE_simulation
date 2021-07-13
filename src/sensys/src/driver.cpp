@@ -109,7 +109,7 @@ bool openSerial(int argc, char **argv)
 						ROS_WARN("Failure to read");
 					}
 				}
-				usleep(1);
+				ros::Duration(0.000001).sleep();
 				ros::spinOnce();
 			}
 			return true;
@@ -163,7 +163,7 @@ int main(int argc, char **argv)
   
 	while(openSerial(argc,argv) == false)
 	{
-		usleep(1000000);
+		ros::Duration(1).sleep();
 	}
 	sensys.close();
   	file.close();

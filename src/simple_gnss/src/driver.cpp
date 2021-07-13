@@ -145,7 +145,7 @@ void parseNMEA(std::string data)
 					{
 						msg.longitude = std::nan("1");
 					}
-					if(split_nmea[9].length() > 1 and split_nmea[11].length() > 1)
+					if(split_nmea[9].length() > 1 && split_nmea[11].length() > 1)
 					{
 						msg.altitude = std::stod(split_nmea[9]) + std::stod(split_nmea[11]);
 					}
@@ -230,7 +230,7 @@ void parseUBX(std::string intro,std::string data)
 			CK_A_calc = CK_A_calc + buffer[i];
 			CK_B_calc = CK_B_calc + CK_A_calc;
 		}
-		if(!(CK_A_calc == ck_a and CK_B_calc == ck_b))
+		if(!(CK_A_calc == ck_a && CK_B_calc == ck_b))
 		{
 			ROS_WARN("Invalid UBX checksum");
 		}
@@ -249,7 +249,7 @@ void parseUBX(std::string intro,std::string data)
 std::pair<int,std::string> getIncomingUBXMessageLenghtAndType(std::string data)
 {
 	int length = (int)parseU16(data,2);
-	if(data[0] == (char)0x01 and data[1] == (char)0x3c) //RELPOSNED
+	if(data[0] == (char)0x01 && data[1] == (char)0x3c) //RELPOSNED
 	{
 		return std::make_pair(length,"RELPOSNED");
 	}
@@ -281,7 +281,7 @@ bool openSerial(int argc, char **argv)
 				    std::string ch;
 					if(uart_gnss.read(ch, 1) == 1)
 					{
-						if(ch == "$" and UBX == 0 )
+						if(ch == "$" && UBX == 0 )
 						{	
 							if(buffer.length() != 0)
 							{
@@ -289,7 +289,7 @@ bool openSerial(int argc, char **argv)
 							}
 							buffer = ch;
 						}
-						else if(ch[0] == (char)0xb5 and UBX == 0)
+						else if(ch[0] == (char)0xb5 && UBX == 0)
 						{
 							std::string ch2;
 							if(uart_gnss.read(ch2, 1) == 1)
@@ -322,12 +322,12 @@ bool openSerial(int argc, char **argv)
 					{
 						ROS_WARN("Failure to read");
 					}
-					if(UBX == 1 and buffer.length() == 4)
+					if(UBX == 1 && buffer.length() == 4)
 					{
 						std::pair<int,std::string> l_t = getIncomingUBXMessageLenghtAndType(buffer);
 						msg_intro = buffer;
 						buffer = "";
-						if(l_t.second == "" or l_t.first <= 0 or l_t.first > MAX_UBX_STRUCT_LENGTH)
+						if(l_t.second == "" || l_t.first <= 0 || l_t.first > MAX_UBX_STRUCT_LENGTH)
 						{
 							UBX = 0;
 							lengthOfIncomingUBXMessage = 0;
@@ -341,7 +341,7 @@ bool openSerial(int argc, char **argv)
 						}
 
 					}
-					else if(UBX == 2 and buffer.length() == lengthOfIncomingUBXMessage)
+					else if(UBX == 2 && buffer.length() == lengthOfIncomingUBXMessage)
 					{
 						parseUBX(msg_intro,buffer);
 						msg_intro = "";
@@ -351,7 +351,7 @@ bool openSerial(int argc, char **argv)
 						typeOfIncomingUBXMessage = "";
 					}
 				}
-				usleep(1);
+				ros::Duration(0.000001).sleep();
 			}
 			return true;
 		}
@@ -393,7 +393,7 @@ int main(int argc, char **argv)
 	chatter_fix = n.advertise<sensor_msgs::NavSatFix>("/fix", 1000);
 	while(openSerial(argc,argv) == false)
 	{
-		usleep(1000000);
+		ros::Duration(1).sleep();
 	}
 	uart_gnss.close();
 

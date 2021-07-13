@@ -31,7 +31,7 @@ void callbackFix(const sensor_msgs::NavSatFix& msg)
 	double current_long = msg.longitude;
 	incorrect_gps = false;
 
-	if(msg.position_covariance[0] > max_cov or msg.position_covariance[4] > max_cov or (isnan(current_lat) || isnan(current_long)))
+	if(msg.position_covariance[0] > max_cov || msg.position_covariance[4] > max_cov || (isnan(current_lat) || isnan(current_long)))
 	{
 		incorrect_gps = true;
 	}
@@ -58,7 +58,7 @@ void callbackVel(const geometry_msgs::TwistStamped& msg)
 {
 	double vx = msg.twist.linear.x;
 	double vy = msg.twist.linear.y;
-	if(isnan(vx) or isnan(vy))
+	if(isnan(vx) || isnan(vy))
 	{
 		current_vel = 0;
 	}

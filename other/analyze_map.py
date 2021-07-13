@@ -13,7 +13,9 @@ def spike(min_value,max_value,min_id,max_id):
     
     
 
-files = ["magmap_v1.csv","magmap_v5.csv"]
+#files = ["magmap_v1.csv","magmap_v5.csv"]
+#files = ["log_data.1611839109.022858.csv","log_data.1612471641.013366.csv"]
+files = ["log_data.1612471641.013366.csv"]
 proj = pyproj.Proj(proj='utm', zone="30U", ellps='WGS84')
 huges_spikes_list = []
 liste_X, liste_Y = [],[]
@@ -171,12 +173,11 @@ for file in files:
 
 #np.savetxt('test.txt', np.array([X,Y,N]).T, delimiter=' ') 
 plt.figure()
-plt.plot(liste_X[0],liste_Y[0],"b,")
-plt.plot(liste_X[1],liste_Y[1],"b,")
-plt.scatter(huges_spikes_list[0][0],huges_spikes_list[0][1],c=(huges_spikes_list[0][2]))
-plt.scatter(huges_spikes_list[1][0],huges_spikes_list[1][1],c=(huges_spikes_list[1][2]))
-plt.xlabel("X (en m)")
-plt.ylabel("Y (en m)")
+for i in range(0,len(files)):
+    plt.plot(liste_X[i],liste_Y[i],"b,")
+    plt.scatter(huges_spikes_list[i][0],huges_spikes_list[i][1],c=(huges_spikes_list[i][2]))
+plt.xlabel("X (in m)")
+plt.ylabel("Y (in m)")
 cbar = plt.colorbar()
-cbar.set_label('Anomalie (en mT)')
+cbar.set_label('Anomaly (in mT)')
 plt.show()

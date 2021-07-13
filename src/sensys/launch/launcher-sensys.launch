@@ -1,16 +1,12 @@
 <launch output="screen">
-
-   <node pkg="simple_gnss" type="simple_gnss_node" name="simple_gnss_node"  output="screen">
+  <node pkg="simple_gnss" type="simple_gnss_node" name="simple_gnss_node"  output="screen">
     <param name="port" value="/dev/ttyACM0" />
+    <!--<param name="port" value="COM14" />-->
     <param name="baudrate" value="9600" />
   </node>
-
   <node pkg="sensys" type="sensys_node" name="sensys_node"  output="screen">
     <param name="port" value="/dev/ttyS1" />
+    <!--<param name="port" value="COM16" />-->
     <param name="baudrate" value="921600" />
   </node>
-
-
-
-
 </launch>
