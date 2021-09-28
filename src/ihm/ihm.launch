@@ -1,6 +1,5 @@
 <launch output="screen">
-
-
+  
 <node name="ihm"        pkg="ihm"      type="ihm" output="screen"/>
-<node name="mission"        pkg="regul"      type="mission" output="screen"/>
+
 </launch>

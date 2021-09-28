@@ -43,9 +43,9 @@ mission current_mission;
 int current_mission_type;
 int current_mission_id = 0;
 
-float estim_x,estim_y;
-double estim_theta;
-bool estim_correct;
+float estim_x = 0, estim_y = 0;
+double estim_theta = 0;
+bool estim_correct = true;
 
 void callbackEstim(const regul::msg_estim& msg){
 	estim_x = msg.x;
@@ -274,7 +274,7 @@ void read(const string& filename){
     	l_objectifs.push_back(new_mission_circle(ligne_0[i+3].first, ligne_0[i+3].second, ligne_0[i+1].first, ligne_0[i+1].second, r_offset, -1));
     	
    	}
-   	
+	
    	
    	ROS_INFO("Mission Node : Fin de la lecture des missions, %i objectifs a accomplir", l_objectifs.size());
 }
@@ -392,6 +392,7 @@ bool testEndMission(mission &current_mission){
 	sinon, envoie false
 	**/
 	current_mission_type = current_mission.type;
+	bool estim_correct = true;
 
 	if(current_mission_type == 0) //Waypoint following
 	{
@@ -469,8 +470,7 @@ int main(int argc, char **argv){
 
  	bool continue_missions=true;
 
- 	//read("/home/bertrand/workspaceRosSaturneSimu/fichier.txt");
- 	read("/home/saturne/Robot_4_roues/data_traj.txt");
+ 	read("data_traj.txt");
 
  	current_mission_id = -1;
  	mission current_mission = loadMission();
