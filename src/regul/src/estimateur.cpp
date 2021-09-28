@@ -19,8 +19,6 @@ double current_vel;
 bool incorrect_gps = false;
 bool ready = false;
 
-//double max_cov = 2.5;
-//double max_cov = 3;
 double max_cov = 5.;
 
 ros::Time last_msg_imu;

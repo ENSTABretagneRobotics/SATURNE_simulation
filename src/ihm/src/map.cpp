@@ -63,7 +63,7 @@ void map::addPoint(float lat,float lon,float heading)
 	pt.x = x;
 	pt.y = y;
 	pt.heading = heading;
-	pt.blue = true;
+	pt.estim = true;
 	liste_points_pos << pt;
 	update();
 }
@@ -73,7 +73,7 @@ void map::addPointEstim(float x,float y,float heading)
 	point pt;
 	pt.x = x;
 	pt.y = y;
-	pt.blue = false;
+	pt.estim = false;
 	pt.heading = heading;
 	//liste_points_pos << pt;
 	//update();
@@ -108,13 +108,13 @@ void map::paintEvent(QPaintEvent *e)
 	 painter.setPen(QPen(Qt::blue, 1));
     for(int i = 0; i < liste_points_pos.size(); i++)
     {
-    	if(liste_points_pos[i].blue)
+    	if(liste_points_pos[i].estim)
     	{
-    		painter.setPen(QPen(Qt::blue, 1));
+    		painter.setPen(QPen(Qt::green, 1));
     	}
     	else
     	{
-    		painter.setPen(QPen(Qt::red, 1));
+    		painter.setPen(QPen(Qt::magenta, 1));
     	}
 	    float heading = liste_points_pos[i].heading;
 	    x = liste_points_pos[i].x;

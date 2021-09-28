@@ -4,11 +4,8 @@
 #include "sensor_msgs/NavSatFix.h"
 #include "regul/msg_estim.h"
 #include "regul/msg_obj.h"
-#include "std_msgs/Float64.h"
 #include "regul/msg_mission.h"
 #include "std_msgs/Bool.h"
-
-
 
 struct mission
 {
@@ -36,8 +33,6 @@ float angl_sortie;
 float Ox, Oy; // orgine du répère
 float estim_x,estim_y;
 double estim_theta;
-bool estim_correct;
-
 
 std::pair<double,double> phi0(float p1, float p2)
 {       
@@ -59,16 +54,12 @@ std::pair<double,double> phi(float p1, float p2, float c1, float c2, float r, fl
     return std::make_pair(v1,v2);
 }
 
-
-
 void callbackEstim(const regul::msg_estim& msg)
 {
 	estim_x = msg.x;
 	estim_y = msg.y;
 	estim_theta = msg.theta;
-	estim_correct = msg.correct;
 }
-
 
 void callbackCurrent_mission(const regul::msg_mission& msg)
 {
@@ -115,13 +106,11 @@ int main(int argc, char **argv)
 
  	ros::Rate loop_rate(10);
 
-
 	bool continue_missions = true;
  	regul::msg_obj msg;
 
  	while (ros::ok() && continue_missions)
     {
-		estim_correct = true; //seulement simu
 		current_mission_type = current_mission.type;
     	if(current_mission_type == 1) //Line following
     	{
@@ -185,9 +174,6 @@ int main(int argc, char **argv)
         loop_rate.sleep();
 	    ros::spinOnce();
     }
-
-
-
 
 	return 0;
 }

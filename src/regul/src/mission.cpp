@@ -43,9 +43,9 @@ mission current_mission;
 int current_mission_type;
 int current_mission_id = 0;
 
-float estim_x,estim_y;
-double estim_theta;
-bool estim_correct;
+float estim_x = 0, estim_y = 0;
+double estim_theta = 0;
+bool estim_correct = true;
 
 void callbackEstim(const regul::msg_estim& msg){
 	estim_x = msg.x;
@@ -99,21 +99,6 @@ mission new_mission_circle(float ax, float ay, float bx, float by, float r_offse
 	mi.p0y = (ay+by)/2.;
 
 	mi.p1x = 0;
-	mi.p1y = sens;
-
-	mi.r = r_offset + dist(ax,ay,bx,by)/2.;
-
-	return mi;
-}
-
-mission new_mission_arc_old(float ax, float ay, float bx, float by, float r_offset, int sens, float cap_sortie){
-	mission mi;
-	mi.type = 3;
-
-	mi.p0x = (ax+bx)/2.;
-	mi.p0y = (ay+by)/2.;
-
-	mi.p1x = cap_sortie;
 	mi.p1y = sens;
 
 	mi.r = r_offset + dist(ax,ay,bx,by)/2.;
@@ -224,19 +209,17 @@ void read(const string& filename){
  	//float lat3 = 48.418131;//48.418900; 
  	//float lon3 = -4.474223;//-4.473706;
 
-	/*
-	float lat0 = 48.418635; 
- 	float lon0 = -4.473634;
+	//float lat0 = 48.418635; 
+ 	//float lon0 = -4.473634;
  
- 	float lat1 = 48.418624; 
- 	float lon1 = -4.474211;
+ 	//float lat1 = 48.418624; 
+ 	//float lon1 = -4.474211;
 
- 	float lat2 = 48.418857; 
- 	float lon2 = -4.474267;
+ 	//float lat2 = 48.418857; 
+ 	//float lon2 = -4.474267;
   
- 	float lat3 = 48.418900; 
- 	float lon3 = -4.473706;
-	*/
+ 	//float lat3 = 48.418900; 
+ 	//float lon3 = -4.473706;
 
  	float lat0 = 48.418197; 
  	float lon0 = -4.473515;
@@ -291,10 +274,7 @@ void read(const string& filename){
     	l_objectifs.push_back(new_mission_circle(ligne_0[i+3].first, ligne_0[i+3].second, ligne_0[i+1].first, ligne_0[i+1].second, r_offset, -1));
     	
    	}
-   	int i = ligne_1.size() - 3 -1;
-	l_objectifs.push_back(new_mission_lf(ligne_1[i+3].first, ligne_1[i+3].second, ligne_0[i+3].first, ligne_0[i+3].second, -r_offset));
 	
-   	
    	
    	ROS_INFO("Mission Node : Fin de la lecture des missions, %i objectifs a accomplir", l_objectifs.size());
 }
@@ -354,7 +334,6 @@ void sendMissions(){
 			msn2.x1 = l_objectifs[i].p0x +l_objectifs[i].r*cos(l_objectifs[i].p1x);
 			msn2.y1 = l_objectifs[i].p0y +l_objectifs[i].r*sin(l_objectifs[i].p1x);
 			chatter_draw.publish(msn2);
-
 		}else{
 			msn.type = l_objectifs[i].type;
 		}
@@ -491,8 +470,7 @@ int main(int argc, char **argv){
 
  	bool continue_missions=true;
 
- 	//read("/home/bertrand/workspaceRosSaturneSimu/fichier.txt");
- 	read("/home/bertrand/workspaceRosSaturneSimu/data_traj.txt");
+ 	read("data_traj.txt");
 
  	current_mission_id = -1;
  	mission current_mission = loadMission();

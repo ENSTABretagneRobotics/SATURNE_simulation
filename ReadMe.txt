@@ -27,3 +27,7 @@ roslaunch mybot_gazebo mybot_world.launch
 To launch the robot controller assuming we control the position of a trailer attached at a known distance (see https://www.ensta-bretagne.fr/jaulin/magmap.html, there are changes between the real and simulated robot...) :
 source devel/setup.bash
 roslaunch regul launcher.launch
+
+To launch the GUI :
+source devel/setup.bash
+roslaunch ihm ihm.launch
