@@ -12,7 +12,7 @@ struct point{
 	float x;
 	float y;
 	float heading;
-	bool blue;
+	bool estim;
 };
 
 

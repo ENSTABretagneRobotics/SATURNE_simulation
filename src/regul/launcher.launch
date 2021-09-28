@@ -1,4 +1,5 @@
 <launch output="screen">
+
   <arg name="port" default="/dev/ttyS1" />
   <arg name="baud" default="38400" />
   <arg name="frame_id" default="gps" />
@@ -17,8 +18,8 @@
 <node name="sbg_device" pkg="sbg_driver" type="sbg_device" output="screen">
   	<rosparam command="load" file="$(find sbg_driver)/config/sbg_device_uart_default.yaml" />
 </node>
-<node name="ctrl" pkg="regul" type="ctrl" output="screen"/>
 <node name="estim"        pkg="regul"      type="estim" output="screen"/>
+<node name="ctrl"        pkg="regul"      type="ctrl" output="screen"/>
 <node name="obj"        pkg="regul"      type="obj" output="screen"/>
 
 <node pkg="rosbag" type="record" name="rosbag_record_diag" args="record -o /tmp/bag -a"/>   
