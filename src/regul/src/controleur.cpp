@@ -88,7 +88,7 @@ int main(int argc, char **argv)
 	    if(!mode_heading)
 	    {
         	speed = 300;
-		var_speed = 200;
+			var_speed = 200;
 	    	diff = 300.*sawtooth(var_heading);
 	    	msg.cmd_left = speed_check((int)(speed+diff));
 	    	msg.cmd_right = speed_check((int)(speed-diff));
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
         else
         {
         	speed = 300;
-		var_speed = 150;
+			var_speed = 150;
         	current_objective_heading = obj_heading;
         	diff = 300.*sawtooth(current_objective_heading - estim_theta);
         	msg.cmd_left = speed_check((int)(speed+diff));
