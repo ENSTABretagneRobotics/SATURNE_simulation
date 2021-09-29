@@ -101,7 +101,8 @@ int main(int argc, char **argv)
     	msg.y = y_pos;
     	msg.theta = current_heading;
     	msg.vel = current_vel;
-    	msg.correct = (ready && incorrect_gps == false && (ros::Time::now()-last_msg_imu).toSec() <= 2. && (ros::Time::now()-last_msg_gps).toSec() <= 2. && (ros::Time::now()-last_msg_vel).toSec() <= 2.);
+    	//msg.correct = true; // For SATURNE simulator...
+    	msg.correct = (ready && incorrect_gps == false && (ros::Time::now()-last_msg_imu).toSec() <= 2. && (ros::Time::now()-last_msg_gps).toSec() <= 2. && (ros::Time::now()-last_msg_vel).toSec() <= 2.); // For SATURNE or Warthog...
 		chatter_estim.publish(msg);
         loop_rate.sleep();
 	    ros::spinOnce();
