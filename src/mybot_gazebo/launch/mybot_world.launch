@@ -30,9 +30,17 @@
   <node name="$(anon rviz)" pkg="rviz" type="rviz" args="$(find mybot_gazebo)/mybot.rviz" output="screen"/>
 	-->
 	
-  <!-- ros_control mybot launch file -->
-  
-  <include file="$(find mybot_control)/launch/mybot_control.launch" /> 
-  
+  <!-- ros_control mybot launch file -->  
+  <include file="$(find mybot_control)/launch/mybot_control.launch" />
+
+  <!-- roboteq emulation -->
+  <group ns="front">
+    <node name="drvr"        pkg="roboteq"      type="drvr" respawn="true"/>
+  </group>
+
+  <!-- sbg emulation -->
+  <node name="imu_conv_node" pkg="imu_conv" type="imu_conv_node" output="screen">
+    <rosparam command="load" file="$(find regul)/config/imu_conv.yaml" />
+  </node>
 
 </launch>

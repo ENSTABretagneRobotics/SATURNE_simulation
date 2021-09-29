@@ -1,0 +1,16 @@
+rate: 50
+angular_velocity_x_coef: 1
+angular_velocity_y_coef: -1
+angular_velocity_z_coef: -1
+linear_acceleration_x_coef: 1
+linear_acceleration_y_coef: -1
+linear_acceleration_z_coef: -1
+roll_coef: 1
+pitch_coef: -1
+yaw_coef: -1
+subscriber:
+  topic: "/imu"
+  queue: 1000
+publisher:
+  topic: "/imu/data"
+  queue: 1000

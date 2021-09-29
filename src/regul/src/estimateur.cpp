@@ -50,8 +50,7 @@ void callbackFix(const sensor_msgs::NavSatFix& msg)
 
 void callbackImu(const sensor_msgs::Imu& msg)
 {
-	current_heading = -tf::getYaw(msg.orientation); // For SATURNE simulator...
-	//current_heading = tf::getYaw(msg.orientation); // For SATURNE or Warthog...
+	current_heading = tf::getYaw(msg.orientation);
 	last_msg_imu = ros::Time::now();
 }
 
@@ -79,8 +78,7 @@ int main(int argc, char **argv)
 
 	ros::Subscriber sub_fix = n.subscribe("/fix", 1000, callbackFix);
 	ros::Subscriber sub_vel = n.subscribe("/vel", 1000, callbackVel);
-	ros::Subscriber sub_imu = n.subscribe("/imu", 1000, callbackImu); // For SATURNE simulator...
-	//ros::Subscriber sub_imu = n.subscribe("/imu/data", 1000, callbackImu); // For SATURNE or Warthog...
+	ros::Subscriber sub_imu = n.subscribe("/imu/data", 1000, callbackImu);
  	ros::Publisher chatter_estim = n.advertise<regul::msg_estim>("/estim", 1000);
 
   	ros::Rate loop_rate(10);
@@ -101,7 +99,8 @@ int main(int argc, char **argv)
     	msg.y = y_pos;
     	msg.theta = current_heading;
     	msg.vel = current_vel;
-    	msg.correct = (ready && incorrect_gps == false && (ros::Time::now()-last_msg_imu).toSec() <= 2. && (ros::Time::now()-last_msg_gps).toSec() <= 2. && (ros::Time::now()-last_msg_vel).toSec() <= 2.);
+    	msg.correct = true; // For SATURNE simulator...
+    	//msg.correct = (ready && incorrect_gps == false && (ros::Time::now()-last_msg_imu).toSec() <= 2. && (ros::Time::now()-last_msg_gps).toSec() <= 2. && (ros::Time::now()-last_msg_vel).toSec() <= 2.); // For SATURNE or Warthog...
 		chatter_estim.publish(msg);
         loop_rate.sleep();
 	    ros::spinOnce();
