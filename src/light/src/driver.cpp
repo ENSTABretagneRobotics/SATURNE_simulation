@@ -148,9 +148,9 @@ int main(int argc, char **argv)
 					target_warning = 6500;
 				}
 			}
-			command_lights_0 = {0x84,channel_light_0,target_lights & 0x7F,(target_lights >> 7) & 0x7F};
-			command_lights_1 = {0x84,channel_light_1,target_lights & 0x7F,(target_lights >> 7) & 0x7F};
-			command_warning = {0x84,channel_warning,target_warning & 0x7F,(target_warning >> 7) & 0x7F};
+			command_lights_0 = {0x84,uint8_t(channel_light_0),uint8_t(target_lights & 0x7F),uint8_t((target_lights >> 7) & 0x7F)};
+			command_lights_1 = {0x84,uint8_t(channel_light_1),uint8_t(target_lights & 0x7F),uint8_t((target_lights >> 7) & 0x7F)};
+			command_warning = {0x84,uint8_t(channel_warning),uint8_t(target_warning & 0x7F),uint8_t((target_warning >> 7) & 0x7F)};
 			
 			maestro.write(command_lights_0);
 			maestro.write(command_lights_1);
@@ -176,9 +176,9 @@ int main(int argc, char **argv)
 		}
 		target_lights = 0;
 		target_warning = 0;
-		command_lights_0 = {0x84,channel_light_0,target_lights & 0x7F,(target_lights >> 7) & 0x7F};
-		command_lights_1 = {0x84,channel_light_1,target_lights & 0x7F,(target_lights >> 7) & 0x7F};
-		command_warning = {0x84,channel_warning,target_warning & 0x7F,(target_warning >> 7) & 0x7F};
+		command_lights_0 = {0x84,uint8_t(channel_light_0),uint8_t(target_lights & 0x7F),uint8_t((target_lights >> 7) & 0x7F)};
+		command_lights_1 = {0x84,uint8_t(channel_light_1),uint8_t(target_lights & 0x7F),uint8_t((target_lights >> 7) & 0x7F)};
+		command_warning = {0x84,uint8_t(channel_warning),uint8_t(target_warning & 0x7F),uint8_t((target_warning >> 7) & 0x7F)};
 		maestro.write(command_lights_0);
 		maestro.write(command_lights_1);
 		maestro.write(command_warning);

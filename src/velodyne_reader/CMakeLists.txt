@@ -153,6 +153,7 @@ include_directories(SYSTEM ${EIGEN3_INCLUDE_DIRS})
 
 add_executable(reader src/reader.cpp)
 target_link_libraries(reader ${catkin_LIBRARIES})
+add_dependencies(reader ${catkin_EXPORTED_TARGETS})
 
 #############
 ## Install ##

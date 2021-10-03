@@ -48,9 +48,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-# )
+ add_message_files(
+   FILES
+   msg_cmd_lights.msg
+ )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -67,10 +68,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
+ generate_messages(
 #   DEPENDENCIES
 #   std_msgs
-#  )
+  )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -104,6 +105,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES light
+  CATKIN_DEPENDS roscpp serial std_msgs message_generation message_runtime
 #  DEPENDS system_lib
 )
 
@@ -145,6 +147,7 @@ add_executable(drvr_light src/driver.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(drvr_light ${catkin_LIBRARIES})
+add_dependencies(drvr_light ${catkin_EXPORTED_TARGETS})
 add_dependencies(drvr_light light_generate_messages_cpp)
 
 #############
