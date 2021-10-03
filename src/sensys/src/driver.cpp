@@ -47,7 +47,7 @@ void parse(std::string data)
 	{
 		if(firstGNSS)
 		{
-		file << count <<";" << current_lat<<std::setprecision(10)<< ";"<<current_long <<std::setprecision(10)<<";" << std::stod(split_data[4]) <<std::setprecision(10)<< "\n";
+		file << count << ";" << current_lat << ";" << current_long << ";" << std::stod(split_data[4]) << std::endl;
 		count++;
 		std_msgs::Float64MultiArray msg;
 		msg.data.resize(4);
@@ -160,6 +160,7 @@ int main(int argc, char **argv)
 	
 	std::string name = "log_data." + std::to_string(ros::Time::now().toSec())+".csv";
   	file.open(name, std::ios::out | std::ios::app );
+	file.precision(10);
   
 	while(openSerial(argc,argv) == false)
 	{
