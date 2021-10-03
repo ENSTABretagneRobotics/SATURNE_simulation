@@ -16,7 +16,7 @@
     <param name="useRMC" value="$(arg useRMC)" />
 </node>
 <node name="sbg_device" pkg="sbg_driver" type="sbg_device" output="screen">
-  	<rosparam command="load" file="$(find sbg_driver)/config/sbg_device_uart_default.yaml" />
+  	<rosparam command="load" file="$(find regul)/config/sbg_device_uart_default.yaml" />
 </node>
 <node name="estim"        pkg="regul"      type="estim" output="screen"/>
 <node name="ctrl"        pkg="regul"      type="ctrl" output="screen"/>
