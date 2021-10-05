@@ -50,8 +50,7 @@ void callbackFix(const sensor_msgs::NavSatFix& msg)
 
 void callbackImu(const sensor_msgs::Imu& msg)
 {
-	//current_heading = -tf::getYaw(msg.orientation); // For SATURNE simulator...
-	current_heading = tf::getYaw(msg.orientation); // For SATURNE or Warthog...
+	current_heading = tf::getYaw(msg.orientation);
 	last_msg_imu = ros::Time::now();
 }
 
@@ -79,8 +78,7 @@ int main(int argc, char **argv)
 
 	ros::Subscriber sub_fix = n.subscribe("/fix", 1000, callbackFix);
 	ros::Subscriber sub_vel = n.subscribe("/vel", 1000, callbackVel);
-	//ros::Subscriber sub_imu = n.subscribe("/imu", 1000, callbackImu); // For SATURNE simulator...
-	ros::Subscriber sub_imu = n.subscribe("/imu/data", 1000, callbackImu); // For SATURNE or Warthog...
+	ros::Subscriber sub_imu = n.subscribe("/imu/data", 1000, callbackImu);
  	ros::Publisher chatter_estim = n.advertise<regul::msg_estim>("/estim", 1000);
 
   	ros::Rate loop_rate(10);
