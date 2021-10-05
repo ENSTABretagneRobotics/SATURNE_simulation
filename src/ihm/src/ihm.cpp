@@ -45,8 +45,7 @@ void ihm::callbackEstim(const regul::msg_estim& msg)
 
 void ihm::callbackImu(const sensor_msgs::Imu& msg)
 {
-	//current_heading = tf::getYaw(msg.orientation); // For SATURNE simulator...
-	current_heading = -tf::getYaw(msg.orientation); // For SATURNE or Warthog...
+	current_heading = -tf::getYaw(msg.orientation);
 	compass_->setHeading(-current_heading);
 	label_heading->setText(QString::number(-current_heading*180./M_PI)+"°");
 }
@@ -109,8 +108,7 @@ ihm::ihm()
 	label_heading = new QLabel("");
 	sub_fix = n.subscribe("/fix", 1000, &ihm::callbackFix,this);
 	sub_estim = n.subscribe("/estim", 1000, &ihm::callbackEstim,this);
-	//sub_imu = n.subscribe("/imu", 1000, &ihm::callbackImu,this); // For SATURNE simulator...
-	sub_imu = n.subscribe("/imu/data", 1000, &ihm::callbackImu,this); // For SATURNE or Warthog...
+	sub_imu = n.subscribe("/imu/data", 1000, &ihm::callbackImu,this);
 	sub_draw = n.subscribe("/draw_wp", 1000, &ihm::callbackDraw,this);
 	chatter_ask = n.advertise<std_msgs::Bool>("/ask_points", 1000);
 
