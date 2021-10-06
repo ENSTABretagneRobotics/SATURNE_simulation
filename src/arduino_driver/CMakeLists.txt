@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 2.8...3.16)
 project(arduino_driver)
 
 find_package(catkin REQUIRED COMPONENTS
