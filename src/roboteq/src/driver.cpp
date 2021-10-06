@@ -10,37 +10,17 @@ Also compatible with geometry_msgs::Twist...
 */
 ros::Publisher chatter_cmd_left_back, chatter_cmd_right_back, chatter_cmd_left_front, chatter_cmd_right_front;
 
-int max_speed = 200;
-int max_var_speed = 150;
-
-int speed_check(int spd)
-{
-	return std::min(std::max(spd, max_speed - max_var_speed), max_speed + max_var_speed);
-}
-
-double sawtooth(double x)
-{
-	return 2. * atan(tan(x / 2.));
-}
-
 void callbackCmd_vel(const geometry_msgs::Twist& msg)
 {
-	/*
-	le max en consigne était de 200, on voudrait que ça corresponde à 3 m/s
-	*/
-	float alpha = 3 / 200.;
-	//alpha/=2;
-
-	double speed = msg.linear.x/alpha;
-	double diff = 300. * sawtooth(msg.angular.z*0.1);
-	float cmd_left = speed_check((int)(speed - diff));
-	float cmd_right = speed_check((int)(speed + diff));
+	double coef = 5;
+	double msg_left = coef*std::min(std::max(msg.linear.x-msg.angular.z,-6.0),6.0);
+	double msg_right = coef*std::min(std::max(msg.linear.x+msg.angular.z,-6.0),6.0);
 
 	std_msgs::Float64 msg1, msg2, msg3, msg4;
-	msg1.data = alpha * cmd_left;
-	msg2.data = alpha * cmd_right;
-	msg3.data = alpha * cmd_left;
-	msg4.data = alpha * cmd_right;
+	msg1.data = msg_left;
+	msg2.data = msg_right;
+	msg3.data = msg_left;
+	msg4.data = msg_right;
 
 	chatter_cmd_left_back.publish(msg2);
 	chatter_cmd_right_back.publish(msg1);
