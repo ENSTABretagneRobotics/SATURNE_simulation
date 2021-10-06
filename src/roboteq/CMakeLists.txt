@@ -9,7 +9,11 @@ project(roboteq)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  rospy
   std_msgs
+  geometry_msgs
+  sensor_msgs
+  tf
   serial
   message_generation
 )
@@ -106,7 +110,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES roboteq
-#  CATKIN_DEPENDS roscpp std_msgs
+  CATKIN_DEPENDS roscpp rospy std_msgs geometry_msgs sensor_msgs tf serial message_generation message_runtime
 #  DEPENDS system_lib
 )
 

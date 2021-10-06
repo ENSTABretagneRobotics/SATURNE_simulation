@@ -2,6 +2,7 @@
 #include "ros/ros.h"
 #include <time.h>
 #include "std_msgs/Float64.h"
+#include "geometry_msgs/Twist.h"
 #include "roboteq/msg_cmd_esc.h"
 #include <sstream>
 #include <thread> 
@@ -88,6 +89,16 @@ void cmdCallback(const roboteq::msg_cmd_esc& msg)
 	last_msg = ros::Time::now();
 }
 
+void callbackCmd_vel(const geometry_msgs::Twist& msg)
+{
+	double coef = 5;
+	double alpha = 3/200.;
+
+	speed_left = int(std::min(std::max(coef*(msg.linear.x-msg.angular.z)/alpha, -1000.0), 1000.0));
+	speed_right = int(std::min(std::max(coef*(msg.linear.x+msg.angular.z)/alpha, -1000.0), 1000.0));
+	last_msg = ros::Time::now();
+}
+
 int main(int argc, char **argv)
 {
 	
@@ -108,6 +119,7 @@ int main(int argc, char **argv)
 		esc.flush();
 		ros::NodeHandle n;
 		ros::Subscriber sub_esc = n.subscribe("cmd_esc", 1000, cmdCallback);
+		ros::Subscriber sub_cmd_vel = n.subscribe("/cmd_vel", 1000, callbackCmd_vel);
 		ros::Rate loop_rate(10);
 		while (ros::ok())
 		{
