@@ -40,7 +40,7 @@
 
   <!-- sbg emulation -->
   <node name="imu_conv_node" pkg="imu_conv" type="imu_conv_node" output="screen">
-    <rosparam command="load" file="$(find regul)/config/imu_conv.yaml" />
+    <rosparam command="load" file="$(find mybot_gazebo)/config/imu_conv.yaml" />
   </node>
 
 </launch>
