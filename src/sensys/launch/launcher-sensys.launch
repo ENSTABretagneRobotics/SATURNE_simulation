@@ -1,12 +1,12 @@
 <launch output="screen">
   <node name="nmea_serial_driver_node" pkg="nmea_navsat_driver" type="nmea_serial_driver" output="screen">
-    <param name="port" value="/dev/ttyACM0"/>
-    <!--<param name="port" value="COM14"/>-->
+    <!--<param name="port" value="/dev/ttyACM0"/>-->
+    <param name="port" value="COM14"/>
     <param name="baud" value="9600" />
   </node>
   <node pkg="sensys" type="sensys_node" name="sensys_node" output="screen">
-    <param name="port" value="/dev/ttyS1"/>
-    <!--<param name="port" value="COM16"/>-->
+    <!--<param name="port" value="/dev/ttyS1"/>-->
+    <param name="port" value="COM16"/>
     <param name="baudrate" value="921600"/>
   </node>
 </launch>
