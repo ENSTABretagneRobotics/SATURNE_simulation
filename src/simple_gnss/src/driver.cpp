@@ -351,7 +351,7 @@ bool openSerial(int argc, char **argv)
 						typeOfIncomingUBXMessage = "";
 					}
 				}
-				ros::Duration(0.000001).sleep();
+				//ros::Duration(0.000001).sleep();
 			}
 			return true;
 		}

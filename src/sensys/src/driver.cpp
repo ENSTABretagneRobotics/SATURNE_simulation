@@ -109,7 +109,7 @@ bool openSerial(int argc, char **argv)
 						ROS_WARN("Failure to read");
 					}
 				}
-				ros::Duration(0.000001).sleep();
+				//ros::Duration(0.000001).sleep();
 				ros::spinOnce();
 			}
 			return true;
