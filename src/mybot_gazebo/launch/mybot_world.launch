@@ -43,4 +43,13 @@
     <rosparam command="load" file="$(find mybot_gazebo)/config/imu_conv.yaml" />
   </node>
 
+  <!-- /vel emulation -->
+  <node name="vel" pkg="topic_tools" type="transform"
+     args="/fix_velocity 
+     /vel 
+     geometry_msgs/TwistStamped 
+     geometry_msgs.msg.TwistStamped(header=m.header,twist=geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(m.vector.x,m.vector.y,m.vector.z),angular=geometry_msgs.msg.Vector3())) 
+     --import geometry_msgs std_msgs rospy"
+     respawn="true" />
+
 </launch>
