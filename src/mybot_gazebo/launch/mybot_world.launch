@@ -39,8 +39,8 @@
   </group>
 
   <!-- sbg emulation -->
-  <node name="imu_conv_node" pkg="imu_conv" type="imu_conv_node" output="screen">
-    <rosparam command="load" file="$(find mybot_gazebo)/config/imu_conv.yaml" />
+  <node name="imu_conv_node" pkg="imu_conv" type="imu_conv_node" output="screen" respawn="true">
+    <rosparam command="load" file="$(find mybot_gazebo)/config/imu_conv.yaml"/>
   </node>
 
   <!-- /vel emulation -->
@@ -50,6 +50,6 @@
      geometry_msgs/TwistStamped 
      geometry_msgs.msg.TwistStamped(header=m.header,twist=geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(m.vector.x,m.vector.y,m.vector.z),angular=geometry_msgs.msg.Vector3())) 
      --import geometry_msgs std_msgs rospy"
-     respawn="true" />
+     respawn="true"/>
 
 </launch>

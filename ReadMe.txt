@@ -1,6 +1,6 @@
 Installation :
 
-Assuming that you already have ROS, install those packages (replace noetic by e.g. melodic for Ubuntu 18.04, see https://www.ensta-bretagne.fr/lebars/tutorials/ros_noetic_vs2019.txt for Windows) :
+Assuming that you already have ROS, install those packages (replace noetic by e.g. melodic for Ubuntu 18.04 or find their source and integrate them inside the ROS workspace, see https://www.ensta-bretagne.fr/lebars/tutorials/ros_noetic_vs2019.txt for Windows) :
 (for motor control)
 	build-essential ros-noetic-robot ros-noetic-ros-control ros-noetic-ros-controllers ros-noetic-gazebo-ros-control
 (for compass)

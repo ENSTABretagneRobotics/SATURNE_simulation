@@ -30,7 +30,7 @@ Eigen::MatrixXd matrixparam(ros::NodeHandle nh, const std::string param, Eigen::
 			// aren't specified with decimal points. Handle that
 			// using string streams.
 			std::ostringstream ostr;
-			ostr << matrix_tmp[matrix.rows()*i+j];
+			ostr << matrix_tmp[matrix.cols()*i+j];
 			std::istringstream istr(ostr.str());
 			istr >> matrix(i, j);
 		}
@@ -43,6 +43,8 @@ int main(int argc, char** argv) {
 	ros::init(argc, argv, "twist_conv");
 	ros::NodeHandle nh("~");
 
+	twist_sub_msg = geometry_msgs::Twist();
+
 	ros::Subscriber sub = nh.subscribe<geometry_msgs::Twist>(nh.param<std::string>("subscriber/topic", "/twist"), nh.param("subscriber/queue", 1000), twist_sub_cb);
 	ros::Publisher pub = nh.advertise<geometry_msgs::Twist>(nh.param<std::string>("publisher/topic", "/cmd_vel"), nh.param("publisher/queue", 1000));
 
@@ -53,6 +55,10 @@ int main(int argc, char** argv) {
 
 	while (ros::ok()) {
 		geometry_msgs::Twist twist_pub_msg;
+
+		rate.sleep();
+
+		ros::spinOnce();
 
 		twist_pub_msg = twist_sub_msg;
 
@@ -69,9 +75,7 @@ int main(int argc, char** argv) {
 		twist_pub_msg.linear.z = linear_pub(2);
 
 		pub.publish(twist_pub_msg);
-
-		rate.sleep();
-
-		ros::spinOnce();
 	}
+
+	return EXIT_SUCCESS;
 }

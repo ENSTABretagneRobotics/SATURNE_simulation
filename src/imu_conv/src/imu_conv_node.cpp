@@ -30,7 +30,7 @@ Eigen::MatrixXd matrixparam(ros::NodeHandle nh, const std::string param, Eigen::
 			// aren't specified with decimal points. Handle that
 			// using string streams.
 			std::ostringstream ostr;
-			ostr << matrix_tmp[matrix.rows()*i+j];
+			ostr << matrix_tmp[matrix.cols()*i+j];
 			std::istringstream istr(ostr.str());
 			istr >> matrix(i, j);
 		}
@@ -43,6 +43,8 @@ int main(int argc, char** argv) {
 	ros::init(argc, argv, "imu_conv");
 	ros::NodeHandle nh("~");
 
+	imu_sub_msg = sensor_msgs::Imu();
+
 	ros::Subscriber sub = nh.subscribe<sensor_msgs::Imu>(nh.param<std::string>("subscriber/topic", "/imu"), nh.param("subscriber/queue", 1000), imu_sub_cb);
 	ros::Publisher pub = nh.advertise<sensor_msgs::Imu>(nh.param<std::string>("publisher/topic", "/imu/data"), nh.param("publisher/queue", 1000));
 
@@ -54,6 +56,10 @@ int main(int argc, char** argv) {
 
 	while (ros::ok()) {
 		sensor_msgs::Imu imu_pub_msg;
+
+		rate.sleep();
+
+		ros::spinOnce();
 
 		imu_pub_msg = imu_sub_msg;
 
@@ -75,16 +81,15 @@ int main(int argc, char** argv) {
 		tf::Matrix3x3(q).getRPY(roll, pitch, yaw);
 		Eigen::Vector4d RPY_sub(roll, pitch, yaw, 1.0);
 		Eigen::Vector4d RPY_pub = RPY_transform_matrix*RPY_sub;
-		q.setRPY(RPY_pub(0), RPY_pub(1), RPY_pub(2));
+		roll = RPY_pub(0); pitch = RPY_pub(1); yaw = RPY_pub(2);
+		q.setRPY(roll, pitch, yaw);
 		imu_pub_msg.orientation.x = q[0];
 		imu_pub_msg.orientation.y = q[1];
 		imu_pub_msg.orientation.z = q[2];
 		imu_pub_msg.orientation.w = q[3];
 
 		pub.publish(imu_pub_msg);
-
-		rate.sleep();
-
-		ros::spinOnce();
 	}
+
+	return EXIT_SUCCESS;
 }
