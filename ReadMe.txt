@@ -7,10 +7,12 @@ Assuming that you already have ROS, install those packages (replace noetic by e.
 	ros-noetic-gazebo-plugins
 (for GPS)
 	ros-noetic-hector-gazebo-plugins
+(for conversions)
+	Get imu_conv from https://github.com/ENSTABretagneRobotics/ardupilot2ros and put it in ~/catkin_ws/src (assuming catkin_ws is the ROS workspace)
 
 Place the content of the models folder in ~/.gazebo/models so that Gazebo finds the models.
 
-Place the content of the src folder in ~/catkin_ws/src (assuming catkin_ws is the ROS workspace), then :
+Place the content of the src folder in ~/catkin_ws/src, then :
 cd ~/catkin_ws
 catkin_make
 source devel/setup.bash
@@ -31,3 +33,5 @@ roslaunch regul launcher.launch
 To launch the GUI :
 source devel/setup.bash
 roslaunch ihm ihm.launch
+
+Instead of regul and ihm launchers, you can also use https://github.com/ENSTABretagneRobotics/ardupilot2ros to control the robot as if it was an ArduPilot-based robot.
