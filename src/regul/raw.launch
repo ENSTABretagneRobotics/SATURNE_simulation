@@ -1,0 +1,55 @@
+<launch output="screen">
+
+  <arg name="port" default="/dev/gps" />
+  <arg name="baud" default="115200" />
+  <arg name="frame_id" default="gps" />
+  <arg name="use_GNSS_time" default="False" />
+  <arg name="time_ref_source" default="gps" />
+  <arg name="useRMC" default="False" />
+
+<node name="nmea_serial_driver_node" pkg="nmea_navsat_driver" type="nmea_serial_driver" output="screen">
+    <param name="port" value="$(arg port)"/>
+    <param name="baud" value="$(arg baud)" />
+    <param name="frame_id" value="$(arg frame_id)" />
+    <param name="use_GNSS_time" value="$(arg use_GNSS_time)" />
+    <param name="time_ref_source" value="$(arg time_ref_source)" />
+    <param name="useRMC" value="$(arg useRMC)" />
+</node>
+  
+<node name="sbg_device" pkg="sbg_driver" type="sbg_device" output="screen">
+  	<rosparam command="load" file="$(find regul)/config/sbg_device_uart_default.yaml" />
+</node>
+
+<group ns="front">
+    <node name="drvr"        pkg="roboteq"      type="drvr" respawn="true" >
+    <param name="port"              type="string"               value="/dev/front"/>
+</node>
+</group>
+
+<group ns="back">
+    <node name="drvr"        pkg="roboteq"      type="drvr" respawn="true" >
+    <param name="port"              type="string"               value="/dev/back"/>
+    </node>
+</group>
+
+<node name="drvr_light"        pkg="light"      type="drvr_light">
+    <param name="port"              type="string"               value="/dev/pololu"/>
+</node>
+
+<include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+
+<!-- <node name="reader"        pkg="velodyne_reader"      type="reader" output="screen"/> -->
+
+<!-- 
+rosbridge_suite can use WebSockets on port 9090 to be compatible with the Python package roslibpy, 
+which can be easily installed on another computer without ROS. 
+Alternatively, a more raw JSON over TCP protocol seems to be available with rosbridge_tcp.
+-->
+<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+<!-- 
+<node pkg="rosbridge_library" type="rosbridge_tcp" name="rosbridge_tcp" output="screen">
+	<param name="port" value="9091" />
+</node>
+-->
+
+</launch>
