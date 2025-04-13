@@ -1,0 +1,16 @@
+<launch output="screen">
+
+<!-- 
+rosbridge_suite can use WebSockets on port 9090 to be compatible with the Python package roslibpy, 
+which can be easily installed on another computer without ROS. 
+Alternatively, a more raw JSON over TCP protocol seems to be available with rosbridge_tcp.
+-->
+<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+<!-- 
+<node pkg="rosbridge_library" type="rosbridge_tcp" name="rosbridge_tcp" output="screen">
+	<param name="port" value="9091" />
+</node>
+-->
+
+</launch>
+
